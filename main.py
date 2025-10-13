@@ -99,7 +99,7 @@ def gerar_relatorio_final():
     relatorio = controle.gerar_relatorio()
 
     print("\n" + "#"*50)
-    print(" RELATÓRIO CONSOLIDADO DE PRODUÇÃO E QUALIDADE ")
+    print(" RELATÓRIO CONSOLIDADO PQA AUTOMAÇÕES ")
     print("#"*50)
     
     print(f"\n[ GERAL ]")
@@ -139,7 +139,7 @@ def main():
         elif escolha == '4':
             listar_caixas()
         elif escolha == '5':
-            generar_relatorio_final()
+            gerar_relatorio_final()
         elif escolha == '0':
             print("\nSaindo do sistema. Relatório final gerado na opção 5.")
             sys.exit()
