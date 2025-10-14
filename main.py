@@ -13,7 +13,7 @@ def exibir_menu():
     print("2. Listar peças aprovadas/reprovadas")
     print("3. Remover peça cadastrada")
     print("4. Listar caixas fechadas")
-    print("5. Gerar Relatório Final")
+    print("5. Gerar Relatório Final (Console e XLSX)") 
     print("0. Sair")
     print("="*40)
 
@@ -95,11 +95,14 @@ def listar_caixas():
         print("A caixa atual está vazia (aguardando aprovação de peças ou acabou de ser fechada).")
 
 def gerar_relatorio_final():
-    """Opção 5: Gera e exibe o relatório consolidado."""
-    relatorio = controle.gerar_relatorio()
+    """
+    Opção 5: Gera o relatório consolidado na tela e cria o arquivo XLSX.
+    """
+    relatorio = controle.gerar_relatorio() # Obtenção dos dados
 
+    # 1. IMPRESSÃO NA TELA (Console)
     print("\n" + "#"*50)
-    print(" RELATÓRIO CONSOLIDADO PQA AUTOMAÇÕES ")
+    print(" RELATÓRIO CONSOLIDADO DE PRODUÇÃO E QUALIDADE ")
     print("#"*50)
     
     print(f"\n[ GERAL ]")
@@ -120,6 +123,21 @@ def gerar_relatorio_final():
         print("Nenhuma peça reprovada (todos os critérios atendidos).")
     
     print("#"*50)
+    
+    # 2. GERAÇÃO DO ARQUIVO XLSX (Nova Funcionalidade)
+    nome_arquivo = "Relatorio_Producao.xlsx"
+    try:
+        controle.gerar_relatorio_excel(nome_arquivo)
+        
+        print(f"\n[ EXPORTAÇÃO ]")
+        print(f"SUCESSO: Arquivo XLSX gerado em '{nome_arquivo}'.")
+
+    except NameError:
+        print(f"\n[ ERRO DE EXPORTAÇÃO ]")
+        print("ERRO: A biblioteca 'openpyxl' não foi encontrada. Instale com: python -m pip install openpyxl")
+    except Exception as e:
+        print(f"\n[ ERRO DE EXPORTAÇÃO ]")
+        print(f"ERRO inesperado ao gerar o arquivo Excel: {e}")
 
 
 # --- Loop Principal do Programa ---
