@@ -1,4 +1,4 @@
-# Protótipo de Automação Digital: Controle de Produção e Qualidade
+# PQA Automações: Controle de Produção e Qualidade
 
 Este projeto é um protótipo de sistema de automação digital desenvolvido em Python para auxiliar no controle de produção e qualidade de peças em uma linha de montagem industrial. O sistema recebe dados de peças e as avalia automaticamente contra critérios de qualidade, gerenciando o empacotamento em caixas de capacidade limitada.
 
@@ -57,8 +57,9 @@ Execute o arquivo principal com o seguinte comando:
 
 ```bash
 python main.py
+```
 
-## 📋 Menu Interativo e Exemplos de Saída
+### 📋 Menu Interativo e Exemplos de Saída
 
 O menu interativo permite que o usuário gerencie o fluxo de produção, com todas as opções totalmente funcionais:
 
