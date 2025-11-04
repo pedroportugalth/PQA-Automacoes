@@ -102,13 +102,24 @@ Abaixo, exemplos de entradas e como o sistema as classifica com base nos critér
 
 | ID | Peso (g) | Cor | Comprimento (cm) | Status | Motivo de Reprovação (Console) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `P001` | `100.5` | `azul` | `18.0` | APROVADA | - |
-| `P002` | `90.0` | `amarelo` | `25.0` | REPROVADA | Peso, Comprimento fora da faixa e Cor incorreta. |
-| `P003` | `102.0` | `verde` | `9.5` | REPROVADA | Comprimento fora da faixa. |
+| `001` | `100.0` | `azul` | `15.0` | APROVADA | - |
+| `002` | `98.0` | `verde` | `12.0` | APROVADA | - |
+| `003` | `102.0` | `azul` | `18.0` | APROVADA | - |
+| `004` | `96.5` | `verde` | `10.5` | APROVADA | - |
+| `005` | `104.0` | `azul` | `19.0` | APROVADA | - |
+| `006` | `99.5` | `verde` | `15.5` | APROVADA | - |
+| `007` | `100.0` | `azul` | `14.5` | APROVADA | - |
+| `008` | `97.0` | `verde` | `16.0` | APROVADA | - |
+| `009` | `101.5` | `azul` | `11.0` | APROVADA | - |
+| `010` | `105.0` | `verde` | `20.0` | **APROVADA** | - (Fecha a Caixa 1) |
+| `011` | `95.0` | `azul` | `10.0` | **APROVADA** | - (Inicia a Caixa 2) |
+| `012` | `100.0` | `amarelo` | `15.0` | REPROVADA | FALHA NA COR |
+| `013` | `90.0` | `azul` | `15.0` | REPROVADA | FALHA NO PESO |
+| `014` | `100.0` | `verde` | `25.0` | REPROVADA | FALHA NO COMPRIMENTO |
 
 ### Exemplo de Saída do Relatório Final (Opção 5)
 
-Este é um exemplo da saída consolidada no console (opção 5), após cadastrar as três peças acima:
+Este é um exemplo da saída consolidada no console (opção 5), após cadastrar as 14 peças acima:
 
 ```
 ##################################################
@@ -116,21 +127,20 @@ Este é um exemplo da saída consolidada no console (opção 5), após cadastrar
 ##################################################
 
 [ GERAL ]
-Total de Peças Inspecionadas: 3
-Total de Peças Aprovadas: 1
-Total de Peças Reprovadas: 2
+Total de Peças Inspecionadas: 14
+Total de Peças Aprovadas: 11
+Total de Peças Reprovadas: 3
 
 [ CAIXAS ]
 Capacidade por Caixa: 10 peças
-Quantidade de Caixas Fechadas: 0
-Peças na Caixa Atual: 1
-Total de Caixas Utilizadas (Fechadas + Atual): 1
+Quantidade de Caixas Fechadas: 1 
+Peças na Caixa Atual: 1 
+Total de Caixas Utilizadas (Fechadas + Atual): 2
 
 [ MOTIVOS DE REPROVAÇÃO ]
 Ocorrências de Reprovação (motivos múltiplos são contados separadamente):
-- Peso (90.0g) fora da faixa (95g-105g): 1 ocorrências
 - Cor (Amarelo) não é Azul ou Verde: 1 ocorrências
+- Peso (90.0g) fora da faixa (95g-105g): 1 ocorrências
 - Comp. (25.0cm) fora da faixa (10cm-20cm): 1 ocorrências
-- Comp. (9.5cm) fora da faixa (10cm-20cm): 1 ocorrências
 ##################################################
 ```
