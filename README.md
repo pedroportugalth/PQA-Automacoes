@@ -86,12 +86,6 @@ Abaixo, exemplos de entradas e como o sistema as classifica com base nos critér
 
 Este é um exemplo da saída consolidada no console (opção 5), após cadastrar as três peças acima:
 
-Ótimo! Para facilitar seu trabalho, aqui está o bloco completo do Markdown (a linguagem de formatação do README.md) contendo a seção de menu e exemplos de entradas/saídas.
-
-Você pode copiar e colar este bloco diretamente no seu arquivo README.md, substituindo qualquer seção de menu ou exemplos anterior.
-
-Markdown
-
 ## 📋 Menu Interativo e Exemplos de Saída
 
 O menu interativo permite que o usuário gerencie o fluxo de produção, com todas as opções totalmente funcionais:
