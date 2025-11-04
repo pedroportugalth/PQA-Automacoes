@@ -110,6 +110,7 @@ Abaixo, exemplos de entradas e como o sistema as classifica com base nos critér
 
 Este é um exemplo da saída consolidada no console (opção 5), após cadastrar as três peças acima:
 
+```
 ##################################################
  RELATÓRIO CONSOLIDADO DE PRODUÇÃO E QUALIDADE 
 ##################################################
@@ -132,3 +133,4 @@ Ocorrências de Reprovação (motivos múltiplos são contados separadamente):
 - Comp. (25.0cm) fora da faixa (10cm-20cm): 1 ocorrências
 - Comp. (9.5cm) fora da faixa (10cm-20cm): 1 ocorrências
 ##################################################
+```
