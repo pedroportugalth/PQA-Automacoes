@@ -78,30 +78,6 @@ Abaixo, exemplos de entradas e como o sistema as classifica com base nos critér
 
 | ID | Peso (g) | Cor | Comprimento (cm) | Status | Motivo de Reprovação (Console) |
 | :--- | :--- | :--- | :--- | :--- | :--- |
-| `001` | `100.5` | `azul` | `18.0` | APROVADA | - |
-| `002` | `90.0` | `amarelo` | `25.0` | REPROVADA | Peso, Comprimento fora da faixa e Cor incorreta. |
-| `003` | `102.0` | `verde` | `9.5` | REPROVADA | Comprimento fora da faixa. |
-
-
-## 📋 Menu Interativo e Exemplos de Saída
-
-O menu interativo permite que o usuário gerencie o fluxo de produção, com todas as opções totalmente funcionais:
-
-| Opção | Funcionalidade |
-| :--- | :--- |
-| **1** | Cadastrar nova peça (Inspecionar) |
-| **2** | Listar peças aprovadas/reprovadas |
-| **3** | Remover peça cadastrada |
-| **4** | Listar caixas fechadas |
-| **5** | Gerar Relatório Final |
-| **0** | Sair |
-
-### Exemplo de Entradas e Status
-
-Abaixo, exemplos de entradas e como o sistema as classifica com base nos critérios de qualidade:
-
-| ID | Peso (g) | Cor | Comprimento (cm) | Status | Motivo de Reprovação (Console) |
-| :--- | :--- | :--- | :--- | :--- | :--- |
 | `001` | `100.0` | `azul` | `15.0` | APROVADA | - |
 | `002` | `98.0` | `verde` | `12.0` | APROVADA | - |
 | `003` | `102.0` | `azul` | `18.0` | APROVADA | - |
@@ -143,4 +119,5 @@ Ocorrências de Reprovação (motivos múltiplos são contados separadamente):
 - Peso (90.0g) fora da faixa (95g-105g): 1 ocorrências
 - Comp. (25.0cm) fora da faixa (10cm-20cm): 1 ocorrências
 ##################################################
+
 ```
