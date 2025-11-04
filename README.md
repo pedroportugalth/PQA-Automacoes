@@ -82,9 +82,6 @@ Abaixo, exemplos de entradas e como o sistema as classifica com base nos critér
 | `002` | `90.0` | `amarelo` | `25.0` | REPROVADA | Peso, Comprimento fora da faixa e Cor incorreta. |
 | `003` | `102.0` | `verde` | `9.5` | REPROVADA | Comprimento fora da faixa. |
 
-### Exemplo de Saída do Relatório Final (Opção 5)
-
-Este é um exemplo da saída consolidada no console (opção 5), após cadastrar as três peças acima:
 
 ## 📋 Menu Interativo e Exemplos de Saída
 
