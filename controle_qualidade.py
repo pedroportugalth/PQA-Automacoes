@@ -1,5 +1,5 @@
 from typing import List, Dict, Optional, Any
-import openpyxl 
+# openpyxl removido, não é mais necessário
 
 # --- Classes de Entidade ---
 
@@ -36,24 +36,27 @@ class ControleQualidade:
         """
         Recebe uma peça, aplica os critérios de qualidade e a armazena.
         """
+        # Verificação inicial de ID duplicado (agora feita apenas em main.py na entrada)
+        # Manteremos a lógica de checagem do ID aqui para robustez, mas o erro de input está no main.py
         if peca.id in self.pecas_inspecionadas:
             peca.motivo_reprovacao = "ID duplicado."
             self.pecas_reprovadas.append(peca)
+            self.pecas_inspecionadas[peca.id] = peca # Armazena mesmo reprovada por duplicidade
             return
 
         motivos: List[str] = []
 
         # Critério 1: Peso
         if not (95 <= peca.peso <= 105):
-            motivos.append(f"Peso ({peca.peso}g) fora da faixa (95g-105g).")
+            motivos.append(f"Peso ({peca.peso}g) fora da faixa (95g-105g)")
 
         # Critério 2: Cor
         if peca.cor not in ["azul", "verde"]:
-            motivos.append(f"Cor ({peca.cor.capitalize()}) não é Azul ou Verde.")
+            motivos.append(f"Cor ({peca.cor.capitalize()}) não é Azul ou Verde")
 
         # Critério 3: Comprimento
         if not (10 <= peca.comprimento <= 20):
-            motivos.append(f"Comp. ({peca.comprimento}cm) fora da faixa (10cm-20cm).")
+            motivos.append(f"Comp. ({peca.comprimento}cm) fora da faixa (10cm-20cm)")
 
         # Avaliação Final
         if not motivos:
@@ -92,8 +95,8 @@ class ControleQualidade:
             # Tenta remover das caixas fechadas 
             for i, caixa in enumerate(self.caixas_fechadas):
                  if any(p.id == peca_id for p in caixa):
-                    print(f"ATENÇÃO: Peça {peca_id} removida de uma caixa FECHADA ({i+1}). A contagem de peças nesta caixa foi alterada.")
-                    self.caixas_fechadas[i] = [p for p in caixa if p.id != peca_id]
+                     print(f"ATENÇÃO: Peça {peca_id} removida de uma caixa FECHADA ({i+1}). A contagem de peças nesta caixa foi alterada.")
+                     self.caixas_fechadas[i] = [p for p in caixa if p.id != peca_id]
         else:
             self.pecas_reprovadas = [p for p in self.pecas_reprovadas if p.id != peca_id]
 
@@ -107,11 +110,15 @@ class ControleQualidade:
         if self.caixa_atual:
             num_caixas_utilizadas += 1
 
-        # Consolida motivos de reprovação
+        # Consolida motivos de reprovação (Contabiliza motivos múltiplos separadamente)
         motivos_consolidados: Dict[str, int] = {}
         for peca in self.pecas_reprovadas:
-            motivo = peca.motivo_reprovacao or "Motivo Desconhecido"
-            motivos_consolidados[motivo] = motivos_consolidados.get(motivo, 0) + 1
+            motivo_full = peca.motivo_reprovacao or "Motivo Desconhecido"
+            # Divide os motivos se houver mais de um (separado por '; ')
+            sub_motivos = motivo_full.split('; ')
+            
+            for sub_motivo in sub_motivos:
+                 motivos_consolidados[sub_motivo] = motivos_consolidados.get(sub_motivo, 0) + 1
         
         return {
             "total_aprovadas": len(self.pecas_aprovadas),
@@ -120,69 +127,3 @@ class ControleQualidade:
             "quantidade_caixas_utilizadas": num_caixas_utilizadas,
             "pecas_na_caixa_atual": len(self.caixa_atual)
         }
-
-    def gerar_relatorio_excel(self, nome_arquivo: str = "Relatorio_Producao.xlsx") -> None:
-        """
-        Gera um arquivo XLSX com o relatório consolidado e uma aba de detalhes.
-        """
-        dados = self.gerar_relatorio()
-        
-        # 1. Cria o Workbook e a primeira aba (Resumo)
-        wb = openpyxl.Workbook()
-        ws_resumo = wb.active
-        ws_resumo.title = "Resumo Geral"
-
-        # Título
-        ws_resumo.cell(row=1, column=1, value="RELATÓRIO CONSOLIDADO DE PRODUÇÃO E QUALIDADE")
-        ws_resumo.merge_cells('A1:C1')
-
-        # Dados Gerais
-        ws_resumo.cell(row=3, column=1, value="TOTAL DE PEÇAS INSPECIONADAS:")
-        ws_resumo.cell(row=3, column=2, value=len(self.pecas_inspecionadas))
-        
-        ws_resumo.cell(row=4, column=1, value="TOTAL DE PEÇAS APROVADAS:")
-        ws_resumo.cell(row=4, column=2, value=dados['total_aprovadas'])
-        
-        ws_resumo.cell(row=5, column=1, value="TOTAL DE PEÇAS REPROVADAS:")
-        ws_resumo.cell(row=5, column=2, value=dados['total_reprovadas'])
-
-        # Dados de Caixas
-        ws_resumo.cell(row=7, column=1, value="QUANTIDADE DE CAIXAS FECHADAS:")
-        ws_resumo.cell(row=7, column=2, value=len(self.caixas_fechadas))
-        
-        ws_resumo.cell(row=8, column=1, value="TOTAL DE CAIXAS UTILIZADAS (FECHADAS + ATUAL):")
-        ws_resumo.cell(row=8, column=2, value=dados['quantidade_caixas_utilizadas'])
-
-        # Motivos de Reprovação
-        ws_resumo.cell(row=10, column=1, value="MOTIVOS DE REPROVAÇÃO:")
-        row = 11
-        if dados['motivos_reprovacao']:
-            for motivo, quantidade in dados['motivos_reprovacao'].items():
-                ws_resumo.cell(row=row, column=1, value=motivo)
-                ws_resumo.cell(row=row, column=2, value=quantidade)
-                row += 1
-        else:
-            ws_resumo.cell(row=11, column=1, value="Nenhuma peça reprovada.")
-
-
-        # 2. Cria a segunda aba (Detalhes das Peças)
-        ws_detalhes = wb.create_sheet(title="Detalhes das Peças")
-        
-        # Cabeçalho da tabela de detalhes
-        ws_detalhes.append(["ID", "Peso (g)", "Cor", "Comprimento (cm)", "Status", "Motivo Reprovação"])
-        
-        # Preenche os dados de todas as peças inspecionadas
-        for peca_id in self.pecas_inspecionadas:
-            peca = self.pecas_inspecionadas[peca_id]
-            status = "APROVADA" if peca.aprovada else "REPROVADA"
-            ws_detalhes.append([
-                peca.id, 
-                peca.peso, 
-                peca.cor.capitalize(), 
-                peca.comprimento, 
-                status, 
-                peca.motivo_reprovacao if peca.motivo_reprovacao else ""
-            ])
-
-        # 3. Salva o arquivo
-        wb.save(nome_arquivo)

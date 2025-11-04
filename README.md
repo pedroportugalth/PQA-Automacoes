@@ -16,6 +16,18 @@ O sistema é baseado na classe `ControleQualidade` que gerencia o fluxo de traba
 3.  **Gerenciamento de Caixas:** Peças Aprovadas são adicionadas a uma caixa atual, com capacidade máxima de **10 peças**. Ao atingir o limite, a caixa é fechada e uma nova é iniciada.
 4.  **Relatórios:** O sistema consolida o total de peças aprovadas, reprovadas e o uso de caixas, detalhando os motivos de falha.
 
+## 💡 Arquitetura e Boas Práticas de Programação
+
+O projeto utiliza a **Programação Orientada a Objetos (POO)** e o princípio de **Modularização** para garantir um código escalável, manutenível e com responsabilidades bem definidas.
+
+* **Modularização (Separação de Responsabilidades):**
+    * `main.py`: Focado na **Interface de Usuário** (Menu Interativo e tratamento de entradas).
+    * `controle_qualidade.py`: Focado na **Lógica de Negócio** (Classes, regras de validação e fluxo de empacotamento).
+* **Classes Definidas:**
+    * **`Peca`:** Modelagem da entidade fundamental do projeto.
+    * **`ControleQualidade`:** Atua como o sistema de automação central, responsável por todas as regras e coleções de dados.
+* **Robustez:** Uso de **tratamento de exceções (`try-except`)** para lidar com dados de entrada incorretos (não numéricos) e validação de **ID Duplicado**.
+
 ## 🚀 Como Rodar o Programa (Passo a Passo)
 
 Para executar o sistema, você precisará ter o Python instalado (versão 3.6+).
@@ -29,11 +41,102 @@ Crie uma pasta para o projeto e salve os dois arquivos com os nomes abaixo:
 | `controle_qualidade.py` | Classes e lógica de negócio. |
 | `main.py` | Menu interativo e loop principal. |
 
+## 🚀 Como Rodar o Programa (Passo a Passo)
+
+Para executar o sistema, você precisará ter o **Python** instalado (versão 3.6+).
+
+### 1. Preparação
+
+Certifique-se de que os dois arquivos principais (`main.py` e `controle_qualidade.py`) estejam salvos no mesmo diretório.
+
 ### 2. Execução
 
-Abra o terminal (Prompt de Comando, PowerShell ou Terminal) e navegue até a pasta onde você salvou os arquivos.
+Abra o terminal (Prompt de Comando, PowerShell ou Terminal) e navegue até a pasta do projeto.
 
 Execute o arquivo principal com o seguinte comando:
 
 ```bash
 python main.py
+
+## 📋 Menu Interativo e Exemplos de Saída
+
+O menu interativo permite que o usuário gerencie o fluxo de produção, com todas as opções totalmente funcionais:
+
+| Opção | Funcionalidade |
+| :--- | :--- |
+| **1** | Cadastrar nova peça (Inspecionar) |
+| **2** | Listar peças aprovadas/reprovadas |
+| **3** | Remover peça cadastrada |
+| **4** | Listar caixas fechadas |
+| **5** | Gerar Relatório Final |
+| **0** | Sair |
+
+### Exemplo de Entradas e Status
+
+Abaixo, exemplos de entradas e como o sistema as classifica com base nos critérios de qualidade:
+
+| ID | Peso (g) | Cor | Comprimento (cm) | Status | Motivo de Reprovação (Console) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `001` | `100.5` | `azul` | `18.0` | APROVADA | - |
+| `002` | `90.0` | `amarelo` | `25.0` | REPROVADA | Peso, Comprimento fora da faixa e Cor incorreta. |
+| `003` | `102.0` | `verde` | `9.5` | REPROVADA | Comprimento fora da faixa. |
+
+### Exemplo de Saída do Relatório Final (Opção 5)
+
+Este é um exemplo da saída consolidada no console (opção 5), após cadastrar as três peças acima:
+
+Ótimo! Para facilitar seu trabalho, aqui está o bloco completo do Markdown (a linguagem de formatação do README.md) contendo a seção de menu e exemplos de entradas/saídas.
+
+Você pode copiar e colar este bloco diretamente no seu arquivo README.md, substituindo qualquer seção de menu ou exemplos anterior.
+
+Markdown
+
+## 📋 Menu Interativo e Exemplos de Saída
+
+O menu interativo permite que o usuário gerencie o fluxo de produção, com todas as opções totalmente funcionais:
+
+| Opção | Funcionalidade |
+| :--- | :--- |
+| **1** | Cadastrar nova peça (Inspecionar) |
+| **2** | Listar peças aprovadas/reprovadas |
+| **3** | Remover peça cadastrada |
+| **4** | Listar caixas fechadas |
+| **5** | Gerar Relatório Final |
+| **0** | Sair |
+
+### Exemplo de Entradas e Status
+
+Abaixo, exemplos de entradas e como o sistema as classifica com base nos critérios de qualidade:
+
+| ID | Peso (g) | Cor | Comprimento (cm) | Status | Motivo de Reprovação (Console) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `P001` | `100.5` | `azul` | `18.0` | APROVADA | - |
+| `P002` | `90.0` | `amarelo` | `25.0` | REPROVADA | Peso, Comprimento fora da faixa e Cor incorreta. |
+| `P003` | `102.0` | `verde` | `9.5` | REPROVADA | Comprimento fora da faixa. |
+
+### Exemplo de Saída do Relatório Final (Opção 5)
+
+Este é um exemplo da saída consolidada no console (opção 5), após cadastrar as três peças acima:
+
+##################################################
+ RELATÓRIO CONSOLIDADO DE PRODUÇÃO E QUALIDADE 
+##################################################
+
+[ GERAL ]
+Total de Peças Inspecionadas: 3
+Total de Peças Aprovadas: 1
+Total de Peças Reprovadas: 2
+
+[ CAIXAS ]
+Capacidade por Caixa: 10 peças
+Quantidade de Caixas Fechadas: 0
+Peças na Caixa Atual: 1
+Total de Caixas Utilizadas (Fechadas + Atual): 1
+
+[ MOTIVOS DE REPROVAÇÃO ]
+Ocorrências de Reprovação (motivos múltiplos são contados separadamente):
+- Peso (90.0g) fora da faixa (95g-105g): 1 ocorrências
+- Cor (Amarelo) não é Azul ou Verde: 1 ocorrências
+- Comp. (25.0cm) fora da faixa (10cm-20cm): 1 ocorrências
+- Comp. (9.5cm) fora da faixa (10cm-20cm): 1 ocorrências
+##################################################

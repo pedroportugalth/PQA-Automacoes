@@ -13,7 +13,7 @@ def exibir_menu():
     print("2. Listar peças aprovadas/reprovadas")
     print("3. Remover peça cadastrada")
     print("4. Listar caixas fechadas")
-    print("5. Gerar Relatório Final (Console e XLSX)") 
+    print("5. Gerar Relatório Final") # Removido (Console e XLSX)
     print("0. Sair")
     print("="*40)
 
@@ -26,6 +26,8 @@ def cadastrar_peca():
             raise ValueError("O ID da peça não pode ser vazio.")
         if peca_id in controle.pecas_inspecionadas:
             print(f"ERRO: A peça com ID '{peca_id}' já foi inspecionada. IDs devem ser únicos.")
+            # Se o ID for duplicado, não tentamos coletar o resto dos dados
+            # Mas a lógica em controle_qualidade.py vai garantir que seja reprovada.
             return
 
         peso = float(input("Peso (g, ex: 100.5): "))
@@ -82,7 +84,7 @@ def listar_caixas():
         for i, caixa in enumerate(controle.caixas_fechadas):
             print(f"\nCAIXA {i+1} (Fechada, {len(caixa)}/{controle.CAPACIDADE_CAIXA} peças):")
             for peca in caixa:
-                print(f"  > ID: {peca.id} | Peso: {peca.peso}g")
+                print(f"  > ID: {peca.id} | Peso: {peca.peso}g | Status: Aprovada")
     else:
         print("Nenhuma caixa foi fechada ainda.")
 
@@ -90,17 +92,17 @@ def listar_caixas():
     if controle.caixa_atual:
         print(f"CAIXA ATUAL (Aberta, {len(controle.caixa_atual)}/{controle.CAPACIDADE_CAIXA} peças):")
         for peca in controle.caixa_atual:
-            print(f"  > ID: {peca.id} | Peso: {peca.peso}g")
+            print(f"  > ID: {peca.id} | Peso: {peca.peso}g | Status: Aprovada")
     else:
         print("A caixa atual está vazia (aguardando aprovação de peças ou acabou de ser fechada).")
 
 def gerar_relatorio_final():
     """
-    Opção 5: Gera o relatório consolidado na tela e cria o arquivo XLSX.
+    Opção 5: Gera o relatório consolidado na tela (Console).
     """
     relatorio = controle.gerar_relatorio() # Obtenção dos dados
 
-    # 1. IMPRESSÃO NA TELA (Console)
+    # IMPRESSÃO NA TELA (Console)
     print("\n" + "#"*50)
     print(" RELATÓRIO CONSOLIDADO DE PRODUÇÃO E QUALIDADE ")
     print("#"*50)
@@ -111,35 +113,21 @@ def gerar_relatorio_final():
     print(f"Total de Peças Reprovadas: {relatorio['total_reprovadas']}")
     
     print(f"\n[ CAIXAS ]")
+    print(f"Capacidade por Caixa: {controle.CAPACIDADE_CAIXA} peças")
     print(f"Quantidade de Caixas Fechadas: {len(controle.caixas_fechadas)}")
-    print(f"Peças na Caixa Atual: {relatorio['pecas_na_caixa_atual']}/{controle.CAPACIDADE_CAIXA}")
+    print(f"Peças na Caixa Atual: {relatorio['pecas_na_caixa_atual']}")
     print(f"Total de Caixas Utilizadas (Fechadas + Atual): {relatorio['quantidade_caixas_utilizadas']}")
 
     print(f"\n[ MOTIVOS DE REPROVAÇÃO ]")
     if relatorio['motivos_reprovacao']:
+        print("Ocorrências de Reprovação (motivos múltiplos são contados separadamente):")
         for motivo, quantidade in relatorio['motivos_reprovacao'].items():
-            print(f"- {motivo}: {quantidade} peças")
+            print(f"- {motivo}: {quantidade} ocorrências")
     else:
         print("Nenhuma peça reprovada (todos os critérios atendidos).")
     
     print("#"*50)
     
-    # 2. GERAÇÃO DO ARQUIVO XLSX (Nova Funcionalidade)
-    nome_arquivo = "Relatorio_Producao.xlsx"
-    try:
-        controle.gerar_relatorio_excel(nome_arquivo)
-        
-        print(f"\n[ EXPORTAÇÃO ]")
-        print(f"SUCESSO: Arquivo XLSX gerado em '{nome_arquivo}'.")
-
-    except NameError:
-        print(f"\n[ ERRO DE EXPORTAÇÃO ]")
-        print("ERRO: A biblioteca 'openpyxl' não foi encontrada. Instale com: python -m pip install openpyxl")
-    except Exception as e:
-        print(f"\n[ ERRO DE EXPORTAÇÃO ]")
-        print(f"ERRO inesperado ao gerar o arquivo Excel: {e}")
-
-
 # --- Loop Principal do Programa ---
 
 def main():
@@ -159,7 +147,7 @@ def main():
         elif escolha == '5':
             gerar_relatorio_final()
         elif escolha == '0':
-            print("\nSaindo do sistema. Relatório final gerado na opção 5.")
+            print("\nSaindo do sistema PQA Automações.")
             sys.exit()
         else:
             print("\nOpção inválida. Tente novamente.")
